@@ -5,38 +5,14 @@ metadata:
   name: wao-scheduler-config
   namespace: kube-system
 data:
-  policy.cfg: |
-    {
-      "kind": "Policy",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "wao-scheduler-config",
-        "namespace": "kube-system"
-      },
-      "predicates": [
-        {
-          "name": "PodFitsResources"
-        },
-        {
-          "name": "PodToleratesNodeTaints"
-        },
-        {
-          "name": "MatchInterPodAffinity"
-        }
-      ],
-      "priorities": [
-        {
-          "name": "NodePreferAvoidPodsPriority",
-          "weight": 10000
-        }
-      ]
-    }
   plugin.yaml: |
     ---
+    apiVersion: kubescheduler.config.k8s.io/v1
     kind: KubeSchedulerConfiguration
-    apiVersion: kubescheduler.config.k8s.io/v1beta1
     leaderElection:
       leaderElect: false
+    clientConnection:
+      kubeconfig: "/etc/kubernetes/scheduler.conf"
     percentageOfNodesToScore: 100
     profiles:
       - schedulerName: wao-scheduler

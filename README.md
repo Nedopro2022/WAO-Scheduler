@@ -13,8 +13,8 @@ WAO-scheduler gets the CPU usage of each node with Metrics-server, also gets the
 
 ## Prerequisites
 
-* [Go v1.15.1](https://golang.org/)
-* [Kubernetes v1.19.7](https://github.com/kubernetes/kubernetes/releases/tag/v1.19.7)
+* [Go v1.19](https://golang.org/)
+* [Kubernetes v1.25](https://github.com/kubernetes/kubernetes/releases/tag/v1.19.7)
 * [IPMI Exporter](https://github.com/soundcloud/ipmi_exporter) running on each node
 * local docker repository  
 * docker image of tensorflow serving containing power consumption model of each node.  
@@ -22,7 +22,7 @@ WAO-scheduler gets the CPU usage of each node with Metrics-server, also gets the
 ## Build WAO-Scheduler with power minimization policy
 
 ```sh
-git checkout release-v1.19
+git checkout release-v1.25
 make test
 make build-bin
 ```
@@ -32,7 +32,7 @@ make build-bin
 ### 1. Create a Docker image for scheduler
 
 ```sh
-git checkout release-v1.19
+git checkout release-v1.25
 IMAGE_REGISTRY=${YOUR_REPO} make build-image
 IMAGE_REGISTRY=${YOUR_REPO} make push-image
 ```
@@ -71,7 +71,7 @@ Give each node the following label:
 ```
 kubectl apply -f example/wao-scheduler-cm.yaml
 kubectl apply -f example/wao-scheduler-sa.yaml
-kubectl apply -f example/wao-scheduler-dep.yaml
+kubectl apply -f example/wao-scheduler-pod.yaml
 ```
 
 Success if you can confirm the startup on each node with the following command

@@ -24,7 +24,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/klog/v2"
-	framework "k8s.io/kubernetes/pkg/scheduler/framework/v1alpha1"
+	framework "k8s.io/kubernetes/pkg/scheduler/framework"
 	v1beta1 "k8s.io/metrics/pkg/apis/metrics/v1beta1"
 	metrics "k8s.io/metrics/pkg/client/clientset/versioned"
 )
@@ -87,7 +87,7 @@ const (
 
 // OsmoticComputingOptimizer is a plugin that prioritizes the nodes with the lowest increase in power consumption.
 type OsmoticComputingOptimizer struct {
-	handle                framework.FrameworkHandle
+	handle                framework.Handle
 	ambient               map[string]float32
 	cpu1                  map[string]float32
 	cpu2                  map[string]float32
@@ -620,7 +620,7 @@ func (oco *OsmoticComputingOptimizer) NormalizeScore(ctx context.Context, state 
 }
 
 // New initializes a new plugin and returns it.
-func New(_ runtime.Object, h framework.FrameworkHandle) (framework.Plugin, error) {
+func New(_ runtime.Object, h framework.Handle) (framework.Plugin, error) {
 	var oco OsmoticComputingOptimizer
 	oco.handle = h
 	oco.powerConsumptionCache = make(map[cacheKey]float32)

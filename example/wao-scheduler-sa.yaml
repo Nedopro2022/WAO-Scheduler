@@ -21,34 +21,34 @@ roleRef:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: wao-scheduler-volume-role-binding
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: system:volume-scheduler
+  name: wao-scheduler-as-volume-scheduler
 subjects:
   - kind: ServiceAccount
     name: wao-scheduler
     namespace: kube-system
+roleRef:
+  kind: ClusterRole
+  name: system:volume-scheduler
+  apiGroup: rbac.authorization.k8s.io
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: wao-scheduler-config-role-binding
+  name: wao-scheduler-role-extension-apiserver-authentication-reader
   namespace: kube-system
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: extension-apiserver-authentication-reader
 subjects:
   - kind: ServiceAccount
     name: wao-scheduler
     namespace: kube-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: extension-apiserver-authentication-reader
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: metrics-reader-role
+  name: metrics-reader
 rules:
   - apiGroups: ["metrics.k8s.io"]
     resources: [pods, nodes]
@@ -57,20 +57,20 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: wao-scheduler-metrics-role-binding
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: metrics-reader-role
+  name: wao-scheduler-role-metrics-reader
 subjects:
   - kind: ServiceAccount
     name: wao-scheduler
     namespace: kube-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: metrics-reader
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: csinode-role
+  name: csinode-reader
 rules:
   - apiGroups: ["storage.k8s.io"]
     resources: ["csinodes"]
@@ -82,12 +82,12 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: wao-scheduler-csinode-role-binding
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: csinode-role
+  name: wao-scheduler-role-csinode-reader
 subjects:
   - kind: ServiceAccount
     name: wao-scheduler
     namespace: kube-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: csinode-reader

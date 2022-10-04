@@ -1,34 +1,23 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-name: [name]
+  name: [name]
 spec:
-replicas: 12
-selector:
+  replicas: 12
+  selector:
     matchLabels:
-    app: [name]
-template:
+      app: [name]
+  template:
     metadata:
-    labels:
+      labels:
         app: [name]
     spec:
-    containers:
-    - command:
-        - /usr/bin/tf_serving_entrypoint.sh
-        - --model_config_file=[model]
-        name: [name]
-        image: [tensorflow_image]
-        ports:
-        - containerPort: 8500
----
-apiVersion: v1
-kind: Service
-metadata:
-name: tensorflow-service
-spec:
-ports:
-- port: 8500
-    targetPort: 8500
-selector:
-    app: [name]
-type: ClusterIP
+      containers:
+        - command:
+            - /usr/bin/tf_serving_entrypoint.sh
+            - --model_config_file=[model]
+          name: [name]
+          image: [repo]/[image]
+          ports:
+            - containerPort: 8500

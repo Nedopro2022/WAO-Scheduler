@@ -65,7 +65,7 @@ func TestGetFamilyInfo(t *testing.T) {
 func TestPredictPC(t *testing.T) {
 	assert := assert.New(t)
 	var oco OsmoticComputingOptimizer
-	var h framework.FrameworkHandle
+	var h framework.Handle
 	oco.handle = h
 	oco.powerConsumptionCache = make(map[cacheKey]float32)
 	oco.ambient = make(map[string]float32)
@@ -600,7 +600,7 @@ func TestCalcCPUUsage(t *testing.T) {
 func TestCalcNormalizeTemperature(t *testing.T) {
 	assert := assert.New(t)
 	var oco OsmoticComputingOptimizer
-	var h framework.FrameworkHandle
+	var h framework.Handle
 	oco.handle = h
 	oco.powerConsumptionCache = make(map[cacheKey]float32)
 	oco.ambient = make(map[string]float32)
@@ -789,7 +789,7 @@ func TestCalcNormalizeTemperature(t *testing.T) {
 func TestCalcScore(t *testing.T) {
 	assert := assert.New(t)
 	var oco OsmoticComputingOptimizer
-	var h framework.FrameworkHandle
+	var h framework.Handle
 	oco.handle = h
 	oco.powerConsumptionCache = make(map[cacheKey]float32)
 	oco.ambient = make(map[string]float32)
@@ -1118,7 +1118,7 @@ func TestNew(t *testing.T) {
 	assert := assert.New(t)
 	t.Run("Normal case", func(t *testing.T) {
 		var runtime pkgruntime.Object
-		var h framework.FrameworkHandle
+		var h framework.Handle
 		result, err := New(runtime, h)
 		assert.Equal(result.Name(), MinimizePowerName)
 		assert.Equal(result.(*OsmoticComputingOptimizer).handle, h)

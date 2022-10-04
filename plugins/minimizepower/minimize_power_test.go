@@ -3,7 +3,7 @@ package minimizepower
 import (
 	"context"
 	"errors"
-	"fmt"
+	// "fmt"
 	"testing"
 	"time"
 
@@ -14,9 +14,9 @@ import (
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	pkgruntime "k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/kubernetes/pkg/scheduler/framework/runtime"
+	// "k8s.io/kubernetes/pkg/scheduler/framework/runtime"
 	framework "k8s.io/kubernetes/pkg/scheduler/framework/v1alpha1"
-	"k8s.io/kubernetes/pkg/scheduler/internal/cache"
+	// "k8s.io/kubernetes/pkg/scheduler/internal/cache"
 	v1beta1 "k8s.io/metrics/pkg/apis/metrics/v1beta1"
 )
 
@@ -860,149 +860,149 @@ func TestCalcScore(t *testing.T) {
 }
 
 // Test for Score
-func TestScore(t *testing.T) {
-	assert := assert.New(t)
-	state := framework.NewCycleState()
-	testNodes := []struct {
-		pod   []*v1.Pod
-		nodes []*v1.Node
-	}{
-		{
-			pod:   []*v1.Pod{makePod("node-test1", "pod-test1", "2000m", "2000m")},
-			nodes: []*v1.Node{makeNode("node-test1", 30000, 20000, map[string]string{"ambient/max": "36.5", "ambient/min": "11.5", "cpu1/max": "42", "cpu1/min": "24", "cpu2/max": "49", "cpu2/min": "23"})},
-		},
-		{
-			pod:   []*v1.Pod{makePod("node-test2", "pod-test2", "0m", "0m")},
-			nodes: []*v1.Node{makeNode("node-test2", 30000, 20000, map[string]string{"ambient/max": "36.5", "ambient/min": "11.5"})},
-		},
-		{
-			pod:   []*v1.Pod{makePod("node-test3", "pod-test3", "1000m", "1000m")},
-			nodes: []*v1.Node{makeNode("node-test3", 30000, 20000, map[string]string{})},
-		},
-		{
-			pod:   []*v1.Pod{makePod("node-test4", "pod-test3", "0m", "0m")},
-			nodes: []*v1.Node{},
-		},
-	}
-	testNodeMetrics := &v1beta1.NodeMetrics{
-		Usage: v1.ResourceList{
-			v1.ResourceCPU: *resource.NewMilliQuantity(
-				7000,
-				resource.DecimalSI,
-			),
-		},
-	}
-	testPodMetrics := &v1beta1.PodMetrics{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: "pod-metrics",
-		},
-		Containers: []v1beta1.ContainerMetrics{
-			{
-				Name: "container",
-				Usage: v1.ResourceList{
-					v1.ResourceCPU: *resource.NewMilliQuantity(
-						15000,
-						resource.DecimalSI),
-				},
-			},
-		},
-	}
-	testFamilyData := []*p2j.Family{
-		{
-			Name: "ipmi_temperature_celsius",
-			Metrics: []interface{}{
-				p2j.Metric{
-					Labels:      map[string]string{"id": "1", "name": "Ambient"},
-					TimestampMs: "",
-					Value:       "24",
-				},
-				p2j.Metric{
-					Labels:      map[string]string{"id": "10", "name": "CPU2"},
-					TimestampMs: "",
-					Value:       "36",
-				},
-				p2j.Metric{
-					Labels:      map[string]string{"id": "9", "name": "CPU1"},
-					TimestampMs: "",
-					Value:       "33",
-				},
-			},
-		},
-	}
+// func TestScore(t *testing.T) {
+// 	assert := assert.New(t)
+// 	state := framework.NewCycleState()
+// 	testNodes := []struct {
+// 		pod   []*v1.Pod
+// 		nodes []*v1.Node
+// 	}{
+// 		{
+// 			pod:   []*v1.Pod{makePod("node-test1", "pod-test1", "2000m", "2000m")},
+// 			nodes: []*v1.Node{makeNode("node-test1", 30000, 20000, map[string]string{"ambient/max": "36.5", "ambient/min": "11.5", "cpu1/max": "42", "cpu1/min": "24", "cpu2/max": "49", "cpu2/min": "23"})},
+// 		},
+// 		{
+// 			pod:   []*v1.Pod{makePod("node-test2", "pod-test2", "0m", "0m")},
+// 			nodes: []*v1.Node{makeNode("node-test2", 30000, 20000, map[string]string{"ambient/max": "36.5", "ambient/min": "11.5"})},
+// 		},
+// 		{
+// 			pod:   []*v1.Pod{makePod("node-test3", "pod-test3", "1000m", "1000m")},
+// 			nodes: []*v1.Node{makeNode("node-test3", 30000, 20000, map[string]string{})},
+// 		},
+// 		{
+// 			pod:   []*v1.Pod{makePod("node-test4", "pod-test3", "0m", "0m")},
+// 			nodes: []*v1.Node{},
+// 		},
+// 	}
+// 	testNodeMetrics := &v1beta1.NodeMetrics{
+// 		Usage: v1.ResourceList{
+// 			v1.ResourceCPU: *resource.NewMilliQuantity(
+// 				7000,
+// 				resource.DecimalSI,
+// 			),
+// 		},
+// 	}
+// 	testPodMetrics := &v1beta1.PodMetrics{
+// 		ObjectMeta: metav1.ObjectMeta{
+// 			Name: "pod-metrics",
+// 		},
+// 		Containers: []v1beta1.ContainerMetrics{
+// 			{
+// 				Name: "container",
+// 				Usage: v1.ResourceList{
+// 					v1.ResourceCPU: *resource.NewMilliQuantity(
+// 						15000,
+// 						resource.DecimalSI),
+// 				},
+// 			},
+// 		},
+// 	}
+// 	testFamilyData := []*p2j.Family{
+// 		{
+// 			Name: "ipmi_temperature_celsius",
+// 			Metrics: []interface{}{
+// 				p2j.Metric{
+// 					Labels:      map[string]string{"id": "1", "name": "Ambient"},
+// 					TimestampMs: "",
+// 					Value:       "24",
+// 				},
+// 				p2j.Metric{
+// 					Labels:      map[string]string{"id": "10", "name": "CPU2"},
+// 					TimestampMs: "",
+// 					Value:       "36",
+// 				},
+// 				p2j.Metric{
+// 					Labels:      map[string]string{"id": "9", "name": "CPU1"},
+// 					TimestampMs: "",
+// 					Value:       "33",
+// 				},
+// 			},
+// 		},
+// 	}
 
-	testNodes[0].nodes[0].Status.Addresses = append(testNodes[0].nodes[0].Status.Addresses, v1.NodeAddress{
-		Type:    v1.NodeInternalIP,
-		Address: "22.22.22.22",
-	})
+// 	testNodes[0].nodes[0].Status.Addresses = append(testNodes[0].nodes[0].Status.Addresses, v1.NodeAddress{
+// 		Type:    v1.NodeInternalIP,
+// 		Address: "22.22.22.22",
+// 	})
 
-	oco := OsmoticComputingOptimizer{}
-	oco.powerConsumptionCache = make(map[cacheKey]float32)
-	oco.ambient = make(map[string]float32)
-	oco.cpu1 = make(map[string]float32)
-	oco.cpu2 = make(map[string]float32)
-	oco.ambientTimestamp = make(map[string]time.Time)
-	oco.startingPodCPU = make(map[string]float64)
+// 	oco := OsmoticComputingOptimizer{}
+// 	oco.powerConsumptionCache = make(map[cacheKey]float32)
+// 	oco.ambient = make(map[string]float32)
+// 	oco.cpu1 = make(map[string]float32)
+// 	oco.cpu2 = make(map[string]float32)
+// 	oco.ambientTimestamp = make(map[string]time.Time)
+// 	oco.startingPodCPU = make(map[string]float64)
 
-	t.Run("Normal case", func(t *testing.T) {
-		fh, _ := runtime.NewFramework(nil, nil, nil, runtime.WithSnapshotSharedLister(cache.NewSnapshot(nil, testNodes[0].nodes)))
-		oco.handle = fh
-		mockObj := new(mockGetInformations)
-		mockObj.On("getNodeMetrics", mock.Anything).Return(testNodeMetrics, nil)
-		mockObj.On("getPodMetrics", mock.Anything).Return(testPodMetrics, nil)
-		mockObj.On("getFamilyInfo", mock.Anything).Return(testFamilyData)
-		mockObj.On("predictPC", mock.Anything).Return(float32(106.89), nil).Times(1)
-		mockObj.On("predictPC", mock.Anything).Return(float32(114.62), nil).Times(1)
-		oco.getInfo = mockObj
-		oco.startingPodCPU[testNodes[0].pod[0].ObjectMeta.Name] = float64(35.5)
-		result, err := oco.Score(context.Background(), state, testNodes[0].pod[0], testNodes[0].nodes[0].Name)
+// 	t.Run("Normal case", func(t *testing.T) {
+// 		fh, _ := runtime.NewFramework(nil, nil, nil, runtime.WithSnapshotSharedLister(cache.NewSnapshot(nil, testNodes[0].nodes)))
+// 		oco.handle = fh
+// 		mockObj := new(mockGetInformations)
+// 		mockObj.On("getNodeMetrics", mock.Anything).Return(testNodeMetrics, nil)
+// 		mockObj.On("getPodMetrics", mock.Anything).Return(testPodMetrics, nil)
+// 		mockObj.On("getFamilyInfo", mock.Anything).Return(testFamilyData)
+// 		mockObj.On("predictPC", mock.Anything).Return(float32(106.89), nil).Times(1)
+// 		mockObj.On("predictPC", mock.Anything).Return(float32(114.62), nil).Times(1)
+// 		oco.getInfo = mockObj
+// 		oco.startingPodCPU[testNodes[0].pod[0].ObjectMeta.Name] = float64(35.5)
+// 		result, err := oco.Score(context.Background(), state, testNodes[0].pod[0], testNodes[0].nodes[0].Name)
 
-		assert.Equal(result, int64(7))
-		assert.Nil(err)
-	})
+// 		assert.Equal(result, int64(7))
+// 		assert.Nil(err)
+// 	})
 
-	t.Run("Abnormal case [Can't get NodeInfo]", func(t *testing.T) {
-		fh, _ := runtime.NewFramework(nil, nil, nil, runtime.WithSnapshotSharedLister(cache.NewSnapshot(nil, testNodes[3].nodes)))
-		oco.handle = fh
-		nodeName := "test-node"
-		result, err := oco.Score(context.Background(), state, testNodes[3].pod[0], nodeName)
-		assert.Equal(result, int64(-1))
-		assert.Equal(err, framework.NewStatus(framework.Error, fmt.Sprintf("getting node test-node from Snapshot: nodeinfo not found for node name \"test-node\"")))
-	})
+// 	t.Run("Abnormal case [Can't get NodeInfo]", func(t *testing.T) {
+// 		fh, _ := runtime.NewFramework(nil, nil, nil, runtime.WithSnapshotSharedLister(cache.NewSnapshot(nil, testNodes[3].nodes)))
+// 		oco.handle = fh
+// 		nodeName := "test-node"
+// 		result, err := oco.Score(context.Background(), state, testNodes[3].pod[0], nodeName)
+// 		assert.Equal(result, int64(-1))
+// 		assert.Equal(err, framework.NewStatus(framework.Error, fmt.Sprintf("getting node test-node from Snapshot: nodeinfo not found for node name \"test-node\"")))
+// 	})
 
-	t.Run("Abnormal case [Can't get NodeMetrics]", func(t *testing.T) {
-		fh, _ := runtime.NewFramework(nil, nil, nil, runtime.WithSnapshotSharedLister(cache.NewSnapshot(nil, testNodes[0].nodes)))
-		oco.handle = fh
-		mockObj := new(mockGetInformations)
-		nodeMetrics := &v1beta1.NodeMetrics{}
-		mockObj.On("getNodeMetrics", mock.Anything).Return(nodeMetrics, errors.New("Cannot get NodeMetrics info"))
-		oco.getInfo = mockObj
-		result, err := oco.Score(context.Background(), state, testNodes[0].pod[0], testNodes[0].nodes[0].Name)
-		assert.Equal(result, int64(-1))
-		assert.Equal(err, framework.NewStatus(framework.Error, fmt.Sprintf("Metrics of node %v cannot be got", testNodes[0].nodes[0].Name)))
-	})
+// 	t.Run("Abnormal case [Can't get NodeMetrics]", func(t *testing.T) {
+// 		fh, _ := runtime.NewFramework(nil, nil, nil, runtime.WithSnapshotSharedLister(cache.NewSnapshot(nil, testNodes[0].nodes)))
+// 		oco.handle = fh
+// 		mockObj := new(mockGetInformations)
+// 		nodeMetrics := &v1beta1.NodeMetrics{}
+// 		mockObj.On("getNodeMetrics", mock.Anything).Return(nodeMetrics, errors.New("Cannot get NodeMetrics info"))
+// 		oco.getInfo = mockObj
+// 		result, err := oco.Score(context.Background(), state, testNodes[0].pod[0], testNodes[0].nodes[0].Name)
+// 		assert.Equal(result, int64(-1))
+// 		assert.Equal(err, framework.NewStatus(framework.Error, fmt.Sprintf("Metrics of node %v cannot be got", testNodes[0].nodes[0].Name)))
+// 	})
 
-	t.Run("Abnormal case [Pod does not define requested and limited resources]", func(t *testing.T) {
-		fh, _ := runtime.NewFramework(nil, nil, nil, runtime.WithSnapshotSharedLister(cache.NewSnapshot(nil, testNodes[1].nodes)))
-		oco.handle = fh
-		mockObj := new(mockGetInformations)
-		mockObj.On("getNodeMetrics", mock.Anything).Return(testNodeMetrics, nil)
-		oco.getInfo = mockObj
-		result, err := oco.Score(context.Background(), state, testNodes[1].pod[0], testNodes[1].nodes[0].Name)
-		assert.Equal(result, int64(-1))
-		assert.Nil(err)
-	})
+// 	t.Run("Abnormal case [Pod does not define requested and limited resources]", func(t *testing.T) {
+// 		fh, _ := runtime.NewFramework(nil, nil, nil, runtime.WithSnapshotSharedLister(cache.NewSnapshot(nil, testNodes[1].nodes)))
+// 		oco.handle = fh
+// 		mockObj := new(mockGetInformations)
+// 		mockObj.On("getNodeMetrics", mock.Anything).Return(testNodeMetrics, nil)
+// 		oco.getInfo = mockObj
+// 		result, err := oco.Score(context.Background(), state, testNodes[1].pod[0], testNodes[1].nodes[0].Name)
+// 		assert.Equal(result, int64(-1))
+// 		assert.Nil(err)
+// 	})
 
-	t.Run("Abnormal case [ambient/max and ambient/min labels are not defined]", func(t *testing.T) {
-		fh, _ := runtime.NewFramework(nil, nil, nil, runtime.WithSnapshotSharedLister(cache.NewSnapshot(nil, testNodes[2].nodes)))
-		oco.handle = fh
-		mockObj := new(mockGetInformations)
-		mockObj.On("getNodeMetrics", mock.Anything).Return(testNodeMetrics, nil)
-		oco.getInfo = mockObj
-		result, err := oco.Score(context.Background(), state, testNodes[2].pod[0], testNodes[2].nodes[0].Name)
-		assert.Equal(result, int64(-1))
-		assert.Nil(err)
-	})
-}
+// 	t.Run("Abnormal case [ambient/max and ambient/min labels are not defined]", func(t *testing.T) {
+// 		fh, _ := runtime.NewFramework(nil, nil, nil, runtime.WithSnapshotSharedLister(cache.NewSnapshot(nil, testNodes[2].nodes)))
+// 		oco.handle = fh
+// 		mockObj := new(mockGetInformations)
+// 		mockObj.On("getNodeMetrics", mock.Anything).Return(testNodeMetrics, nil)
+// 		oco.getInfo = mockObj
+// 		result, err := oco.Score(context.Background(), state, testNodes[2].pod[0], testNodes[2].nodes[0].Name)
+// 		assert.Equal(result, int64(-1))
+// 		assert.Nil(err)
+// 	})
+// }
 
 // Test for NormalizeScore
 func TestNormalizeScore(t *testing.T) {

@@ -1,7 +1,7 @@
 BIN_NAME=kube-scheduler
 VERSION?=$(shell git describe --tags --match "v*")
 IMAGE_REGISTRY=localhost
-IMAGE_NAME=wao-kube-scheduler
+IMAGE_NAME=wao-kube-scheduler-outoftree
 
 -include .env
 

@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> This repository is no longer being maintained. Please use the new [WAO Scheduler](https://github.com/waok8s/wao-scheduler) instead.
+
 # WAO-Scheduler plugin
 
 ---
